@@ -15,13 +15,9 @@ class Loader
      */
     private static $autoload_namespaces = array();
 
-    public function init()
+    public function init(): void
     {
         $this->load_assets();
-
-        if (defined('WPTRADINGBOT_FEATURES') && is_array(WPTRADINGBOT_FEATURES)) {
-            $this->load_features();
-        }
     }
 
     /**
@@ -32,7 +28,7 @@ class Loader
      *
      * @since 1.0.0
      */
-    public static function init_autoload($namespace, $dir_path)
+    public static function init_autoload($namespace, $dir_path): void
     {
         self::$autoload_namespaces[] = array(
             'namespace' => $namespace,
@@ -51,7 +47,7 @@ class Loader
      *
      * @since 1.0.0
      */
-    public static function autoload(string $class)
+    public static function autoload(string $class): void
     {
         $class_explode = explode('\\', $class);
         if (!self::is_for_framework($class_explode)) {
@@ -91,7 +87,7 @@ class Loader
      *
      * @since 1.0.0
      */
-    public static function is_for_framework(array $class_explode)
+    public static function is_for_framework(array $class_explode): bool
     {
         if (empty(self::$autoload_namespaces)) {
             return false;
@@ -103,22 +99,41 @@ class Loader
     }
 
     /**
+     * Load template file
+     *
+     * @param string $template_name Template name.
+     * @param bool $is_echo Echo the template or return as string.
+     *
+     * @return string
+     *
+     * @since 1.0.0
+     */
+    public static function load_template(string $template_name, bool $is_echo = false): string
+    {
+        ob_start();
+
+        $theme_template = locate_template(array('templates/' . $template_name . '.php'), false, false) ?: WPPF_PATH . 'templates/' . $template_name . '.php';
+
+        $theme_template = apply_filters('wp_product_filter_' . $template_name . '_template', $theme_template, $template_name);
+
+        load_template($theme_template, false);
+
+        if ($is_echo) {
+            echo ob_get_clean();
+
+            return '';
+        }
+
+        return ob_get_clean();
+    }
+
+    /**
      * Find and enqueue admin styles and scripts
      *
      * @since 1.0.0
      */
-    public function enqueue_admin_scripts()
+    public function enqueue_admin_scripts(): void
     {
-        if (defined('WPTRADINGBOT_ENQUEUE')) {
-            if (!empty(\WPTradingBot\Framework\WPTRADINGBOT_ENQUEUE['admin_styles'])) {
-                $this->load_additional_styles(\WPTradingBot\Framework\WPTRADINGBOT_ENQUEUE['admin_styles']);
-            }
-
-            if (!empty(\WPTradingBot\Framework\WPTRADINGBOT_ENQUEUE['admin_scripts'])) {
-                $this->load_additional_scripts(\WPTradingBot\Framework\WPTRADINGBOT_ENQUEUE['admin_scripts']);
-            }
-        }
-
         $namespace = strtolower(self::$autoload_namespaces[0]['namespace']);
 
         $enqueue = $this->enqueue_style($namespace, 'assets/css/admin.min.css');
@@ -128,7 +143,7 @@ class Loader
 
         $localize = array(
             'ajax_url' => admin_url('admin-ajax.php'),
-            '_ajax_nonce' => wp_create_nonce('_wptradingbot_nonce'),
+            '_ajax_nonce' => wp_create_nonce('_wppf_nonce'),
         );
         $deps = array(
             'jquery',
@@ -145,28 +160,17 @@ class Loader
      *
      * @since 1.0.0
      */
-    public function enqueue_scripts()
+    public function enqueue_scripts(): void
     {
-        if (defined('WPTRADINGBOT_ENQUEUE')) {
-            if (!empty(\WPTradingBot\Framework\WPTRADINGBOT_ENQUEUE['styles'])) {
-                $this->load_additional_styles(\WPTradingBot\Framework\WPTRADINGBOT_ENQUEUE['styles']);
-            }
-
-            if (!empty(\WPTradingBot\Framework\WPTRADINGBOT_ENQUEUE['scripts'])) {
-                $this->load_additional_scripts(\WPTradingBot\Framework\WPTRADINGBOT_ENQUEUE['scripts']);
-            }
-        }
-
         $namespace = strtolower(self::$autoload_namespaces[0]['namespace']);
-
-        $enqueue = $this->enqueue_style($namespace, 'assets/css/style.min.css');
+        $enqueue = $this->enqueue_style(WPPF_URL, 'assets/css/style.min.css');
         if (!$enqueue) {
             $this->enqueue_style($namespace, 'assets/css/style.css');
         }
 
         $localize = array(
             'ajax_url' => admin_url('admin-ajax.php'),
-            '_ajax_nonce' => wp_create_nonce('_wptradingbot_nonce'),
+            '_ajax_nonce' => wp_create_nonce('_wppf_nonce'),
         );
         $enqueue = $this->enqueue_script($namespace, 'assets/js/script.min.js', $localize);
         if (!$enqueue) {
@@ -179,7 +183,7 @@ class Loader
      *
      * @since 1.0.0
      */
-    private function load_assets()
+    private function load_assets(): void
     {
         if (!function_exists('is_admin')) {
             return;
@@ -195,24 +199,6 @@ class Loader
     }
 
     /**
-     * Load requested features
-     *
-     * @since 1.0.0
-     */
-    private function load_features()
-    {
-        foreach (\WPTradingBot\Framework\WPTRADINGBOT_FEATURES as $feature) {
-            $filename = __DIR__ . '/features/class-' . $feature . '.php';
-
-            if (file_exists($filename)) {
-                require_once $filename;
-
-                return;
-            }
-        }
-    }
-
-    /**
      * Check js script and add it to system
      *
      * @param string $slug Slug name for enqueue.
@@ -222,14 +208,14 @@ class Loader
      *
      * @since 1.0.0
      */
-    public function enqueue_style(string $slug, string $css_file)
+    public function enqueue_style(string $slug, string $css_file): bool
     {
-        if (file_exists(WPTRADINGBOT_PATH . '/' . $css_file)) {
+        if (file_exists(WPPF_PATH . '/' . $css_file)) {
             wp_enqueue_style(
                 $slug,
-                WPTRADINGBOT_URL . $css_file,
+                WPPF_URL . $css_file,
                 array(),
-                WPTRADINGBOT_VERSION
+                WPPF_VERSION
             );
 
             return true;
@@ -255,14 +241,14 @@ class Loader
         string $js_file,
         array  $localize = array(),
         array  $deps = array('jquery')
-    )
+    ): bool
     {
-        if (file_exists(WPTRADINGBOT_PATH . $js_file)) {
+        if (file_exists(WPPF_PATH . $js_file)) {
             wp_register_script(
                 $slug,
-                WPTRADINGBOT_URL . $js_file,
+                WPPF_URL . $js_file,
                 $deps,
-                WPTRADINGBOT_VERSION
+                WPPF_VERSION
             );
 
             wp_enqueue_script($slug);
@@ -275,40 +261,5 @@ class Loader
         }
 
         return false;
-    }
-
-    /**
-     * @param array $scripts List of scripts for loading
-     *
-     * @since 1.0.0
-     */
-    private function load_additional_scripts(array $scripts)
-    {
-        foreach ($scripts as $slug => $script) {
-            wp_register_script(
-                $slug,
-                $script,
-                array('jquery'),
-                WPTRADINGBOT_VERSION
-            );
-            wp_enqueue_script($slug);
-        }
-    }
-
-    /**
-     * @param array $styles List of styles for loading
-     *
-     * @since 1.0.0
-     */
-    private function load_additional_styles(array $styles)
-    {
-        foreach ($styles as $slug => $style) {
-            wp_enqueue_style(
-                $slug,
-                $style,
-                array(),
-                WPTRADINGBOT_VERSION
-            );
-        }
     }
 }

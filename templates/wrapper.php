@@ -4,11 +4,13 @@
  *
  * @package WP_Product_Filter
  */
+
+use WPProductFilter\Loader;
+
 ?>
-<div class="wp-product-filter">
-    asdfasfasdasdfasdf
+<div id="wp-product-filter" class="wp-product-filter">
     <?php
-    get_template_part('templates/wp-product-filter/filter');
-    get_template_part('templates/wp-product-filter/filter');
+    Loader::load_template('filter', true);
+    Loader::load_template('items', true);
     ?>
 </div>

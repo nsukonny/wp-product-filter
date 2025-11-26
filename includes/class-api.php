@@ -1,6 +1,6 @@
 <?php
 /**
- * Init all plugin
+ * Work with API of the plugin
  *
  * @since 1.0.0
  *
@@ -15,7 +15,7 @@ use Singleton;
 
 defined('ABSPATH') || exit;
 
-class Init
+class API
 {
 
     use Singleton;

@@ -33,10 +33,7 @@ class Shortcodes
      */
     public static function render_filter(): string
     {
-        ob_start();
-
-
-        return ob_get_clean();
+        return Loader::load_template('wrapper');
     }
 
 }
