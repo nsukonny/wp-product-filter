@@ -16,8 +16,8 @@ if (empty($product) || 0 === $product_id) {
 $name = $product['name'] ?? __('Duck');
 
 $first_combination = null;
-foreach ($product['combinations'] as $combination) {
-    if ($combination['stock'] > 0 || $combination['available'] === true) {
+foreach ($product['combinations'] as $combination_key => $combination) {
+    if ($combination['available'] === true && null === $first_combination) {
         $first_combination = $combination;
         break;
     }

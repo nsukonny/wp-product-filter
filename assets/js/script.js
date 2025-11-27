@@ -6,8 +6,6 @@ document.addEventListener("DOMContentLoaded", async function () {
     }
 
     let productsData = await loadProductsData();
-    let filterButtons = filterWrapper.querySelectorAll("button");
-
     document.addEventListener("click", async function (e) {
 
         const clickedFilterBtn = e.target;
@@ -165,7 +163,9 @@ const updateProductUI = (productBlock, productData) => {
     let productStock = productBlock.querySelector(`.wp-product-filter__product-stock`);
     if (combination.stock > 0) {
         productStock.textContent = `In Stock: ${combination.stock}`;
+        productPrice.disabled = false;
     } else {
         productStock.textContent = `Out of Stock`;
+        productPrice.disabled = true;
     }
 }

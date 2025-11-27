@@ -52,10 +52,10 @@ $default_color = array();
     <div class="product-filter__sizes">
         <span class="product-filter-title"><?php _e('Pick a size'); ?></span>
         <?php
-        $selected_class = '';
+        $selected_class = null;
         foreach ($sizes as $size) {
             $is_disabled = Product::is_disabled($product, $default_color, $size);
-            $selected_class = empty($selected_class) && !$is_disabled && in_array($size, $compatibility[$default_color]) ? 'selected' : '';
+            $selected_class = null === $selected_class && !$is_disabled && in_array($size, $compatibility[$default_color]) ? 'selected' : '';
             ?>
             <button
                     class="product-filter__sizes__size-btn <?php echo esc_attr($selected_class); ?>"

@@ -59,6 +59,18 @@
     "456": {
       "name": "Capybara Toy",
       "combinations": {
+        "red_S": {
+          "price": 1650,
+          "stock": 2,
+          "image": "/wp-content/plugins/wp-product-filter/assets/img/capybara/red-s.jpg",
+          "available": true
+        },
+        "red_L": {
+          "price": 1950,
+          "stock": 9,
+          "image": "/wp-content/plugins/wp-product-filter/assets/img/capybara/red-l.jpg",
+          "available": true
+        },
         "blue_S": {
           "price": 1650,
           "stock": 0,
@@ -75,18 +87,6 @@
           "price": 1850,
           "stock": 6,
           "image": "/wp-content/plugins/wp-product-filter/assets/img/capybara/green-m.jpg",
-          "available": true
-        },
-        "red_L": {
-          "price": 1950,
-          "stock": 9,
-          "image": "/wp-content/plugins/wp-product-filter/assets/img/capybara/red-l.jpg",
-          "available": true
-        },
-        "red_S": {
-          "price": 1650,
-          "stock": 2,
-          "image": "/wp-content/plugins/wp-product-filter/assets/img/capybara/red-s.jpg",
           "available": true
         },
         "yellow_S": {
