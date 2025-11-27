@@ -33,7 +33,11 @@ class Shortcodes
      */
     public static function render_filter(): string
     {
-        return Loader::load_template('wrapper');
+        $args = array(
+            'products' => API::get_products_list(),
+        );
+
+        return Loader::load_template('wrapper', false, $args);
     }
 
 }

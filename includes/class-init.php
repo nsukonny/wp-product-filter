@@ -30,6 +30,7 @@ class Init
     public function init(): void
     {
         add_action('init_wp_product_filter', [Shortcodes::class, 'instance']);
+        add_action('init_wp_product_filter', [Ajax::class, 'instance']);
 
         do_action('init_wp_product_filter');
     }

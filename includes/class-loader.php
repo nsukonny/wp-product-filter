@@ -103,12 +103,13 @@ class Loader
      *
      * @param string $template_name Template name.
      * @param bool $is_echo Echo the template or return as string.
+     * @param array $args Arguments to pass to template.
      *
      * @return string
      *
      * @since 1.0.0
      */
-    public static function load_template(string $template_name, bool $is_echo = false): string
+    public static function load_template(string $template_name, bool $is_echo = false, array $args = array()): string
     {
         ob_start();
 
@@ -116,7 +117,7 @@ class Loader
 
         $theme_template = apply_filters('wp_product_filter_' . $template_name . '_template', $theme_template, $template_name);
 
-        load_template($theme_template, false);
+        load_template($theme_template, false, $args);
 
         if ($is_echo) {
             echo ob_get_clean();

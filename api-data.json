@@ -1,41 +1,42 @@
 {
   "products": {
     "123": {
+      "name": "Duck Toy",
       "combinations": {
         "red_S": {
           "price": 1500,
           "stock": 5,
-          "image": "red-s.jpg",
+          "image": "/wp-content/plugins/wp-product-filter/assets/img/ducks/red-s.jpg",
           "available": true
         },
         "red_M": {
           "price": 1600,
           "stock": 0,
-          "image": "red-m.jpg",
+          "image": "/wp-content/plugins/wp-product-filter/assets/img/ducks/red-m.jpg",
           "available": false
         },
         "green_S": {
           "price": 1700,
           "stock": 0,
-          "image": "green-s.jpg",
+          "image": "/wp-content/plugins/wp-product-filter/assets/img/ducks/green-s.jpg",
           "available": false
         },
         "green_M": {
           "price": 1800,
           "stock": 3,
-          "image": "green-m.jpg",
+          "image": "/wp-content/plugins/wp-product-filter/assets/img/ducks/green-m.jpg",
           "available": true
         },
         "green_L": {
           "price": 2000,
           "stock": 8,
-          "image": "green-l.jpg",
+          "image": "/wp-content/plugins/wp-product-filter/assets/img/ducks/green-l.jpg",
           "available": true
         },
         "yellow_L": {
           "price": 1900,
           "stock": 0,
-          "image": "yellow-l.jpg",
+          "image": "/wp-content/plugins/wp-product-filter/assets/img/ducks/yellow-l.jpg",
           "available": false
         }
       },
@@ -52,6 +53,63 @@
         "yellow": [
           "S",
           "L"
+        ]
+      }
+    },
+    "456": {
+      "name": "Capybara Toy",
+      "combinations": {
+        "blue_S": {
+          "price": 1650,
+          "stock": 0,
+          "image": "/wp-content/plugins/wp-product-filter/assets/img/capybara/blue-s.jpg",
+          "available": true
+        },
+        "green_S": {
+          "price": 1750,
+          "stock": 0,
+          "image": "/wp-content/plugins/wp-product-filter/assets/img/capybara/green-s.jpg",
+          "available": true
+        },
+        "green_M": {
+          "price": 1850,
+          "stock": 6,
+          "image": "/wp-content/plugins/wp-product-filter/assets/img/capybara/green-m.jpg",
+          "available": true
+        },
+        "red_L": {
+          "price": 1950,
+          "stock": 9,
+          "image": "/wp-content/plugins/wp-product-filter/assets/img/capybara/red-l.jpg",
+          "available": true
+        },
+        "red_S": {
+          "price": 1650,
+          "stock": 2,
+          "image": "/wp-content/plugins/wp-product-filter/assets/img/capybara/red-s.jpg",
+          "available": true
+        },
+        "yellow_S": {
+          "price": 1600,
+          "stock": 0,
+          "image": "/wp-content/plugins/wp-product-filter/assets/img/capybara/yellow-s.jpg",
+          "available": true
+        }
+      },
+      "compatibility": {
+        "blue": [
+          "S"
+        ],
+        "green": [
+          "S",
+          "M"
+        ],
+        "red": [
+          "L",
+          "S"
+        ],
+        "yellow": [
+          "S"
         ]
       }
     }

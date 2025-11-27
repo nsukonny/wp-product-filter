@@ -42,20 +42,14 @@ class Ajax
      */
     public function ajax_get_products(): void
     {
-        check_ajax_referer('product_variants_nonce', 'nonce');
+        check_ajax_referer('_wppf_nonce');
 
-        $product_id = isset($_POST['product_id']) ? sanitize_text_field(wp_unslash($_POST['product_id'])) : '';
+        $data['products'] = API::get_products_list();
 
-        if (empty($product_id)) {
-            wp_send_json_error(['message' => 'Product ID is required'], 400);
+        if (empty($data['products'])) {
+            wp_send_json_error(['message' => 'Products not found'], 404);
         }
 
-        $data = my_product_api_get_data();
-
-        if (!$data || empty($data['products'][$product_id])) {
-            wp_send_json_error(['message' => 'Product not found'], 404);
-        }
-
-        wp_send_json_success($data['products'][$product_id]);
+        wp_send_json_success($data);
     }
 }
